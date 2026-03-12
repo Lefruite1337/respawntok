@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RespawnTok – Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Sidebar nav ── -->
+    <nav class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">▶</span>
+        <span class="logo-text">RespawnTok</span>
+      </div>
+      <ul>
+        <li class="active" data-tab="status">Status</li>
+        <li data-tab="setup">Setup Guide</li>
+        <li data-tab="settings">Settings</li>
+        <li data-tab="testmode">Test Mode</li>
+      </ul>
+      <div class="sidebar-footer">v1.0.0 PoC</div>
+    </nav>
+
+    <!-- ── Main content ── -->
+    <main class="content">
+      <div id="update-banner" class="update-banner hidden"></div>
+
+      <!-- STATUS TAB -->
+      <section id="tab-status" class="tab active">
+        <h1>Live Status</h1>
+
+        <div class="cards">
+          <div class="card">
+            <div class="card-label">GSI Server</div>
+            <div class="card-value" id="server-status">
+              <span class="dot dot-green"></span> Running on :3000
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-label">Player State</div>
+            <div class="card-value" id="player-state">
+              <span class="dot dot-grey"></span> Waiting for game…
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-label">TikTok Viewer</div>
+            <div class="card-value" id="viewer-state">
+              <span class="dot dot-grey"></span> Hidden
+            </div>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="btn-install" class="btn btn-primary">Install CS2 GSI Config</button>
+          <button id="btn-install-dota" class="btn btn-primary" style="background:var(--accent2);color:#000">Install Dota 2 GSI Config</button>
+          <button id="btn-dismiss" class="btn btn-secondary">Dismiss Viewer (Alt+X)</button>
+        </div>
+
+        <div id="install-result" class="result-box hidden"></div>
+        <div id="install-dota-result" class="result-box hidden"></div>
+
+        <div class="shortcut-hint">
+          <kbd>Alt</kbd> + <kbd>X</kbd> — Close TikTok viewer at any time
+        </div>
+      </section>
+
+      <!-- SETUP GUIDE TAB -->
+      <section id="tab-setup" class="tab">
+        <h1>Setup Guide</h1>
+
+        <ol class="guide">
+          <li>
+            <strong>Install the GSI Config</strong>
+            <p>Click <em>Install CS2 GSI Config</em> on the Status tab. This writes a small config file to your CS2 folder so the game sends health updates to RespawnTok.</p>
+          </li>
+          <li>
+            <strong>Use Fullscreen Windowed mode in CS2</strong>
+            <p>Go to <code>CS2 → Settings → Video → Display Mode</code> and set it to <strong>Fullscreen Windowed</strong>. This lets RespawnTok bring its window to the front without minimising the game.</p>
+          </li>
+          <li>
+            <strong>Launch CS2 and play</strong>
+            <p>When your HP reaches 0 the TikTok feed appears automatically. When you respawn (HP &gt; 0) it hides itself.</p>
+          </li>
+          <li>
+            <strong>Manual dismiss</strong>
+            <p>Press <kbd>Alt</kbd> + <kbd>X</kbd> to close the viewer early (e.g. if you respawn before it hides).</p>
+          </li>
+          <li>
+            <strong>TikTok Login (optional)</strong>
+            <p>The TikTok webview loads <code>tiktok.com/foryou</code>. You can log in inside the viewer window and your session will persist between launches.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- SETTINGS TAB -->
+      <section id="tab-settings" class="tab">
+        <h1>Settings</h1>
+        <div class="settings-group">
+          <label class="setting-row">
+            <span>Launch at Windows startup</span>
+            <input type="checkbox" id="chk-startup" />
+          </label>
+          <label class="setting-row">
+            <span>Mute game audio on death</span>
+            <input type="checkbox" id="chk-mute" checked />
+          </label>
+          <label class="setting-row">
+            <span>Show ads in sidebars</span>
+            <input type="checkbox" id="chk-ads" checked />
+          </label>
+        </div>
+        <div class="settings-group">
+          <label class="setting-row">
+            <span>License Key</span>
+            <input type="text" id="license-key" placeholder="XXXX-XXXX-XXXX-XXXX" class="input-text" />
+          </label>
+          <button class="btn btn-primary" id="btn-activate">Activate (removes ads)</button>
+          <div id="license-result" class="result-box hidden"></div>
+        </div>
+      </section>
+
+      <!-- TEST MODE TAB -->
+      <section id="tab-testmode" class="tab">
+        <h1>Test Mode</h1>
+
+        <div class="test-badge">
+          No game required — simulate GSI events to verify the full death/respawn flow.
+        </div>
+
+        <h2 class="section-title">Game</h2>
+        <div class="game-selector">
+          <label class="game-option">
+            <input type="radio" name="sim-game" value="cs2" checked />
+            <span>Counter-Strike 2</span>
+          </label>
+          <label class="game-option">
+            <input type="radio" name="sim-game" value="dota2" />
+            <span>Dota 2</span>
+          </label>
+        </div>
+
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="action-row">
+          <button id="btn-sim-die"     class="btn btn-danger">Simulate Death (HP 0)</button>
+          <button id="btn-sim-respawn" class="btn btn-primary">Simulate Respawn (HP 100)</button>
+          <button id="btn-sim-lowHP"   class="btn btn-secondary">Simulate Low HP (15)</button>
+        </div>
+
+        <h2 class="section-title">Custom Health Value</h2>
+        <div class="custom-health-row">
+          <input type="number" id="sim-health-input" class="input-text" min="0" max="100" value="50" />
+          <button id="btn-sim-custom" class="btn btn-secondary">Send</button>
+          <span class="custom-health-hint">0 = death &nbsp;|&nbsp; 1–100 = alive</span>
+        </div>
+
+        <h2 class="section-title">Activity Log</h2>
+        <div id="activity-log" class="activity-log">
+          <div class="log-empty">No events yet. Simulate an action or start a game.</div>
+        </div>
+        <button id="btn-clear-log" class="btn btn-secondary" style="margin-top:10px">Clear Log</button>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+/* ─── Reset & base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0f0f0f;
+  --surface:   #1a1a1a;
+  --border:    #2a2a2a;
+  --accent:    #fe2c55;   /* TikTok red */
+  --accent2:   #25f4ee;   /* TikTok teal */
+  --text:      #f1f1f1;
+  --muted:     #888;
+  --green:     #4ade80;
+  --yellow:    #facc15;
+  --radius:    10px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── Layout ────────────────────────────────────────────────────────────────── */
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+/* ─── Sidebar ───────────────────────────────────────────────────────────────── */
+.sidebar {
+  width: 200px;
+  min-width: 200px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-icon {
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 16px 0;
+  flex: 1;
+}
+
+.sidebar ul li {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: var(--muted);
+  border-left: 3px solid transparent;
+  transition: all .15s;
+}
+
+.sidebar ul li:hover {
+  color: var(--text);
+  background: rgba(255,255,255,.04);
+}
+
+.sidebar ul li.active {
+  color: var(--text);
+  border-left-color: var(--accent);
+  background: rgba(254,44,85,.06);
+}
+
+.sidebar-footer {
+  padding: 0 20px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ─── Content ───────────────────────────────────────────────────────────────── */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 36px;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* ─── Cards ─────────────────────────────────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.card-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.card-value {
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── Status dots ───────────────────────────────────────────────────────────── */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-green  { background: var(--green);  box-shadow: 0 0 6px var(--green); }
+.dot-red    { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+.dot-yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+.dot-grey   { background: var(--muted); }
+
+/* ─── Buttons ───────────────────────────────────────────────────────────────── */
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.btn:hover { opacity: .85; }
+.btn:active { opacity: .7; }
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--text);
+}
+
+/* ─── Result box ────────────────────────────────────────────────────────────── */
+.result-box {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+}
+.result-box.success { border-color: var(--green); color: var(--green); }
+.result-box.error   { border-color: var(--accent); color: var(--accent); }
+.hidden { display: none !important; }
+
+/* ─── Shortcut hint ─────────────────────────────────────────────────────────── */
+.shortcut-hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 16px;
+}
+
+kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+/* ─── Setup guide ───────────────────────────────────────────────────────────── */
+.guide {
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.guide li {
+  counter-increment: step;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.guide li::before {
+  content: counter(step);
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.guide li strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.guide li p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--accent2);
+}
+
+/* ─── Settings ──────────────────────────────────────────────────────────────── */
+.settings-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.input-text {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 8px 12px;
+  font-size: 13px;
+  width: 260px;
+  outline: none;
+}
+.input-text:focus { border-color: var(--accent); }
+
+/* ─── Update banner ──────────────────────────────────────────────────────────── */
+.update-banner {
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  transition: opacity .3s;
+}
+.update-banner.hidden { display: none; }
+.update-banner--info  { background: rgba(37,244,238,.07);  border-color: rgba(37,244,238,.3);  color: var(--accent2); }
+.update-banner--ok    { background: rgba(74,222,128,.07);  border-color: rgba(74,222,128,.3);  color: var(--green); }
+.update-banner--ready { background: rgba(254,44,85,.08);   border-color: rgba(254,44,85,.4);   color: var(--text); }
+.update-banner--error { background: rgba(254,44,85,.07);   border-color: rgba(254,44,85,.3);   color: var(--accent); }
+
+/* ─── Test mode ─────────────────────────────────────────────────────────────── */
+.test-badge {
+  background: rgba(250, 204, 21, .08);
+  border: 1px solid var(--yellow);
+  border-radius: var(--radius);
+  color: var(--yellow);
+  font-size: 12px;
+  padding: 10px 14px;
+  margin-bottom: 24px;
+}
+
+.btn-danger {
+  background: var(--accent);
+  color: #fff;
+}
+
+.game-selector {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 4px;
+}
+
+.game-option {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.game-option input[type="radio"] {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  margin-top: 24px;
+}
+
+.custom-health-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.custom-health-row .input-text {
+  width: 90px;
+}
+
+.custom-health-hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ─── Activity log ───────────────────────────────────────────────────────────── */
+.activity-log {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  height: 200px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-empty {
+  color: var(--muted);
+  align-self: center;
+  margin: auto;
+}
+
+.log-entry {
+  display: flex;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.log-time {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.log-source {
+  flex-shrink: 0;
+  width: 32px;
+  font-weight: 700;
+}
+
+.log-source.src-GSI { color: var(--accent2); }
+.log-source.src-SIM { color: var(--yellow); }
+
+.log-msg { color: var(--text); }

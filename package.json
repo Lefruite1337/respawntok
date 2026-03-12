@@ -1,0 +1,40 @@
+{
+  "name": "respawntok",
+  "version": "1.0.0",
+  "description": "Auto-show TikTok feed when you die in CS2/Dota2 via Game State Integration",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "install-gsi": "node gsi-installer.js",
+    "build": "electron-builder --win"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.respawntok.app",
+    "productName": "RespawnTok",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false
+    },
+    "files": [
+      "**/*",
+      "!site/**",
+      "!**/*.md"
+    ],
+    "publish": {
+      "provider": "generic",
+      "url": "https://your-site.com/releases/"
+    }
+  }
+}

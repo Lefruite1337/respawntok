@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RespawnTok – Never Waste a Death</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Grid scanline background ── -->
+  <div class="bg-grid"></div>
+
+  <!-- ════════════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo">
+        <span class="logo-icon">▶</span>
+        <span class="logo-text">RespawnTok</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#download">Download</a></li>
+      </ul>
+      <a href="#download" class="btn btn-nav">Get It Free</a>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════════════ -->
+  <header class="hero">
+    <div class="hero-glow hero-glow--red"></div>
+    <div class="hero-glow hero-glow--teal"></div>
+
+    <div class="hero-inner">
+      <div class="hero-badge">CS2 &amp; Dota 2</div>
+      <h1 class="hero-title">
+        Never Waste<br />
+        <span class="gradient-text">a Death.</span>
+      </h1>
+      <p class="hero-sub">
+        RespawnTok detects when you die in-game and instantly surfaces your TikTok
+        feed — ads and all. When you respawn, it vanishes. Zero effort. Maximum scroll.
+      </p>
+      <div class="hero-cta">
+        <a href="#download" class="btn btn-primary btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm6 2H6v2h12v-2z"/></svg>
+          Download for Windows
+        </a>
+        <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
+      </div>
+
+      <!-- mockup window -->
+      <div class="mockup">
+        <div class="mockup-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span class="mockup-title">RespawnTok – Dashboard</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="mock-logo">▶ RespawnTok</div>
+            <div class="mock-nav-item active">Status</div>
+            <div class="mock-nav-item">Setup Guide</div>
+            <div class="mock-nav-item">Settings</div>
+            <div class="mock-nav-item hl">Test Mode</div>
+          </div>
+          <div class="mockup-content">
+            <div class="mock-heading">Live Status</div>
+            <div class="mock-cards">
+              <div class="mock-card">
+                <div class="mock-label">GSI Server</div>
+                <div class="mock-val"><span class="pulse-dot"></span> Running on :3000</div>
+              </div>
+              <div class="mock-card">
+                <div class="mock-label">Player State</div>
+                <div class="mock-val dead"><span class="pulse-dot red"></span> Dead – TikTok visible</div>
+              </div>
+              <div class="mock-card">
+                <div class="mock-label">TikTok Viewer</div>
+                <div class="mock-val"><span class="pulse-dot"></span> Showing</div>
+              </div>
+            </div>
+            <div class="mock-btns">
+              <div class="mock-btn primary">Install CS2 GSI Config</div>
+              <div class="mock-btn teal">Install Dota 2 GSI Config</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════
+       HOW IT WORKS
+  ════════════════════════════════════════════════ -->
+  <section class="section" id="how">
+    <div class="section-inner">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Three steps. Zero effort.</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-icon">⚙️</div>
+          <h3>Install the Config</h3>
+          <p>Click one button. RespawnTok writes the Game State Integration file directly into your CS2 or Dota 2 folder.</p>
+          <div class="step-line"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-icon">🎮</div>
+          <h3>Play Normally</h3>
+          <p>Use Fullscreen Windowed mode. RespawnTok runs silently in the background — no performance impact, no overlays.</p>
+          <div class="step-line"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-icon">📱</div>
+          <h3>Die → TikTok</h3>
+          <p>The moment your HP hits zero, your TikTok For You feed fades in. Respawn and it vanishes. <kbd>Alt+X</kbd> to dismiss early.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       FEATURES
+  ════════════════════════════════════════════════ -->
+  <section class="section section--dark" id="features">
+    <div class="section-inner">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Built for gamers.</h2>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon">🔫</div>
+          <h3>CS2 Support</h3>
+          <p>Full Game State Integration for Counter-Strike 2. Tracks your exact health transition — not just round start.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🗡️</div>
+          <h3>Dota 2 Support</h3>
+          <p>Uses <code>hero.alive</code> from Dota 2 GSI — fires instantly when you fall, clears when you respawn.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Instant Fade</h3>
+          <p>Smooth 200ms fade-in on death, fade-out on respawn. No jarring snaps. Your teammates won't even notice.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🖥️</div>
+          <h3>Anti-Minimize</h3>
+          <p>Works in Fullscreen Windowed mode so CS2 stays live behind the overlay. No alt-tab penalty.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⌨️</div>
+          <h3>Global Hotkey</h3>
+          <p>Press <kbd>Alt+X</kbd> anywhere to instantly dismiss the viewer — or toggle pause mode if you're spectating.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🧪</div>
+          <h3>Test Mode</h3>
+          <p>No live game needed. Simulate death and respawn events with one click to verify your setup before queuing.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>VAC Safe</h3>
+          <p>Uses Valve's official Game State Integration API only. Reads data; never writes to game memory. No ban risk.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🪟</div>
+          <h3>Standalone</h3>
+          <p>No Overwolf. No subscriptions. A single <code>.exe</code> installer — runs on any Windows 10/11 machine.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       DOWNLOAD
+  ════════════════════════════════════════════════ -->
+  <section class="section section--cta" id="download">
+    <div class="hero-glow hero-glow--red" style="top:0;left:20%"></div>
+    <div class="hero-glow hero-glow--teal" style="top:0;right:20%"></div>
+    <div class="section-inner cta-inner">
+      <div class="section-label">Download</div>
+      <h2 class="section-title">Ready to scroll on death?</h2>
+      <p class="cta-sub">Free to download. Windows 10 / 11. No account required.</p>
+
+      <div class="download-box">
+        <div class="download-info">
+          <div class="download-name">RespawnTok-Setup.exe</div>
+          <div class="download-meta">Windows · v1.0.0 · ~80 MB</div>
+        </div>
+        <a href="#" class="btn btn-primary btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm6 2H6v2h12v-2z"/></svg>
+          Download
+        </a>
+      </div>
+
+      <div class="system-reqs">
+        <div class="req"><span class="req-label">OS</span> Windows 10 / 11</div>
+        <div class="req-sep"></div>
+        <div class="req"><span class="req-label">Games</span> CS2 or Dota 2</div>
+        <div class="req-sep"></div>
+        <div class="req"><span class="req-label">Mode</span> Fullscreen Windowed recommended</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="logo">
+        <span class="logo-icon">▶</span>
+        <span class="logo-text">RespawnTok</span>
+      </div>
+      <p class="footer-note">Not affiliated with TikTok, Valve, or Counter-Strike. Use at your own risk.</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

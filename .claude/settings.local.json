@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__filesystem__list_directory",
+      "mcp__filesystem__create_directory",
+      "Bash(apt-cache show libnss3)",
+      "Bash(sudo apt-get:*)",
+      "Bash(rsync:*)",
+      "Bash(npm run:*)",
+      "Bash(npx electron-builder:*)",
+      "Bash(npm install:*)",
+      "Bash(CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder:*)",
+      "Bash(powershell:*)"
+    ]
+  }
+}

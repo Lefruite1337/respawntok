@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RespawnTok – Watch TikTok during CS2 death screens. Free desktop app for Windows." />
+  <title>RespawnTok – Watch TikTok While You Wait to Respawn</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ff2d55;
+      letter-spacing: -0.5px;
+    }
+
+    header nav {
+      margin-left: auto;
+      display: flex;
+      gap: 18px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    header nav a {
+      color: #888;
+      text-decoration: none;
+    }
+
+    header nav a:hover { color: #e0e0e0; }
+
+    .hero {
+      padding: 40px 20px 24px;
+      text-align: center;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .hero h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .hero p {
+      font-size: 13px;
+      color: #888;
+      max-width: 320px;
+      margin: 0 auto 18px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ff2d55;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      letter-spacing: 0.3px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: #ff2d55;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* ── Ad section ── */
+    .ad-section {
+      padding: 24px 20px;
+      text-align: center;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .ad-label {
+      font-size: 10px;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    /* ── Features ── */
+    .features {
+      padding: 24px 20px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .features h2 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+
+    .feature-icon {
+      width: 28px;
+      height: 28px;
+      background: #1e1e1e;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .feature-text strong {
+      display: block;
+      font-size: 12px;
+      color: #e0e0e0;
+      margin-bottom: 2px;
+    }
+
+    .feature-text span {
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      padding: 24px 20px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .faq h2 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .faq-item {
+      margin-bottom: 12px;
+    }
+
+    .faq-item dt {
+      font-size: 12px;
+      font-weight: 600;
+      color: #ccc;
+      margin-bottom: 3px;
+    }
+
+    .faq-item dd {
+      font-size: 11px;
+      color: #666;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: #444;
+    }
+
+    footer a { color: #555; text-decoration: none; }
+  </style>
+
+  <!-- !! Replace ca-pub-XXXXXXXXXXXXXXXX with your AdSense Publisher ID !! -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+    crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <header>
+    <div class="logo">RespawnTok</div>
+    <nav>
+      <a href="#">Download</a>
+      <a href="#">FAQ</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="badge">Free for CS2 Players</div>
+    <h1>Watch TikTok<br/>while you wait to respawn</h1>
+    <p>RespawnTok detects your death in CS2 and instantly brings up your TikTok feed. Hides automatically when you respawn.</p>
+    <a class="download-btn" href="#">Download for Windows</a>
+  </section>
+
+  <!-- Ad unit -->
+  <section class="ad-section">
+    <div class="ad-label">Sponsored</div>
+    <!--
+      !! Replace data-ad-client and data-ad-slot with your values !!
+      Use a Responsive or fixed 160x600 unit from your AdSense dashboard.
+    -->
+    <ins class="adsbygoogle"
+      style="display:block;width:160px;height:600px;"
+      data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+      data-ad-slot="XXXXXXXXXX"
+      data-ad-format="fixed"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </section>
+
+  <section class="features">
+    <h2>Features</h2>
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-text">
+        <strong>Instant detection</strong>
+        <span>Uses CS2 Game State Integration — no screen capture, no VAC risk.</span>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-text">
+        <strong>Auto hide on respawn</strong>
+        <span>The moment your HP returns, the window disappears.</span>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔇</div>
+      <div class="feature-text">
+        <strong>Fullscreen Windowed ready</strong>
+        <span>Works over the game without minimising it.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h2>FAQ</h2>
+    <dl>
+      <div class="faq-item">
+        <dt>Will this get me VAC banned?</dt>
+        <dd>No. RespawnTok only reads data CS2 sends over localhost. It does not touch game memory.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>Which games are supported?</dt>
+        <dd>CS2 is fully supported. Dota 2 support is in development.</dd>
+      </div>
+      <div class="faq-item">
+        <dt>Is it free?</dt>
+        <dd>Yes. A Pro tier that removes ads is coming soon.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <footer>
+    &copy; 2026 RespawnTok &nbsp;·&nbsp;
+    <a href="#">Privacy</a> &nbsp;·&nbsp;
+    <a href="#">Terms</a>
+  </footer>
+
+</body>
+</html>
