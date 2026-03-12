@@ -14,4 +14,5 @@ contextBridge.exposeInMainWorld('respawnTok', {
   onLog: (callback) => ipcRenderer.on('gsi-log', (_e, entry) => callback(entry)),
   onUpdateStatus: (callback) => ipcRenderer.on('update-status', (_e, info) => callback(info)),
   installUpdate: () => ipcRenderer.invoke('install-update'),
+  isPackaged: () => ipcRenderer.invoke('is-packaged'),
 });

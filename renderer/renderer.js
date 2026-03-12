@@ -44,7 +44,7 @@ document.getElementById('btn-install-dota').addEventListener('click', () =>
 // ─── Dismiss viewer ───────────────────────────────────────────────────────────
 document.getElementById('btn-dismiss').addEventListener('click', () => {
   window.respawnTok.dismissViewer();
-  updatePlayerState('MANUAL_CLOSE');
+  // State update comes back from main via gsi-status IPC — no need to call updatePlayerState here
 });
 
 // ─── Live status updates from main process ────────────────────────────────────
@@ -145,6 +145,14 @@ window.respawnTok.onUpdateStatus((info) => {
       updateBanner.textContent = `Update error: ${info.message}`;
       updateDismissTimer = setTimeout(() => updateBanner.classList.add('hidden'), 6000);
       break;
+  }
+});
+
+// Hide Test Mode tab in production builds
+window.respawnTok.isPackaged().then((packaged) => {
+  if (packaged) {
+    const testTab = document.querySelector('[data-tab="testmode"]');
+    if (testTab) testTab.style.display = 'none';
   }
 });
 

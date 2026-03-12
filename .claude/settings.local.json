@@ -10,7 +10,10 @@
       "Bash(npx electron-builder:*)",
       "Bash(npm install:*)",
       "Bash(CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(magick:*)",
+      "Bash(mkdir:*)",
+      "Bash(node:*)"
     ]
   }
 }

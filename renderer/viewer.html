@@ -40,7 +40,11 @@
       width: 100%;
       height: 100%;
       border: none;
+      background: #000;
     }
+
+    /* Prevent white flash before TikTok loads */
+    webview::part(content) { background: #000; }
 
     /* ── Right ad sidebar ── */
     .sidebar-ad.right {
@@ -112,7 +116,27 @@
     </div>
   </aside>
 
-  <div class="dismiss-hint">Alt + X to close</div>
+  <div class="dismiss-hint">Alt + X to pause / resume</div>
 
+  <script>
+    // Hide a sidebar if its ad webview has a placeholder URL or fails to load
+    function hideSidebarOf(webviewEl) {
+      webviewEl.closest('.sidebar-ad').style.display = 'none';
+    }
+
+    document.querySelectorAll('.sidebar-ad webview').forEach((wv) => {
+      const src = wv.getAttribute('src') || '';
+      if (!src || src.includes('YOUR_DOMAIN')) {
+        hideSidebarOf(wv);
+        return;
+      }
+      wv.addEventListener('did-fail-load', () => hideSidebarOf(wv));
+    });
+
+    // Right sidebar has only a placeholder div — hide it unconditionally until real ads are wired up
+    document.querySelectorAll('.sidebar-ad').forEach((s) => {
+      if (!s.querySelector('webview')) s.style.display = 'none';
+    });
+  </script>
 </body>
 </html>

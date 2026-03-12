@@ -514,6 +514,25 @@ kbd {
   color: var(--muted);
 }
 
+.windows-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 20px auto 0;
+  max-width: 560px;
+  padding: 14px 18px;
+  background: rgba(255, 180, 0, .06);
+  border: 1px solid rgba(255, 180, 0, .25);
+  border-radius: var(--radius);
+  color: #b8a070;
+  font-size: .82rem;
+  line-height: 1.5;
+  text-align: left;
+}
+.windows-warning svg { flex-shrink: 0; margin-top: 2px; opacity: .7; }
+.windows-warning strong { color: #d4a840; }
+.windows-warning em { font-style: normal; color: var(--text); }
+
 .system-reqs {
   display: inline-flex;
   align-items: center;

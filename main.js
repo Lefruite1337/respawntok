@@ -42,8 +42,8 @@ function createDashboard() {
 
 function createViewer() {
   viewerWin = new BrowserWindow({
-    width: 1280,
-    height: 800,
+    width: 720,
+    height: 920,
     frame: false,
     alwaysOnTop: true,
     show: false,          // hidden until death
@@ -143,9 +143,24 @@ ipcMain.handle('install-dota-gsi', async () => {
   return installDotaGSIConfig();
 });
 
-ipcMain.handle('dismiss-viewer', () => {
-  if (viewerWin) fadeOut(viewerWin);
-});
+// Shared toggle used by both Alt+X and the dashboard button
+function togglePause() {
+  paused = !paused;
+  if (paused) {
+    if (viewerWin) fadeOut(viewerWin);
+    dashboardWin?.webContents.send('gsi-status', 'PAUSED');
+  } else {
+    // If the player is still dead, show the viewer immediately on unpause
+    if (gsiInstance?._isDead && viewerWin) {
+      fadeIn(viewerWin);
+      dashboardWin?.webContents.send('gsi-status', 'DEAD');
+    } else {
+      dashboardWin?.webContents.send('gsi-status', 'ALIVE');
+    }
+  }
+}
+
+ipcMain.handle('dismiss-viewer', togglePause);
 
 ipcMain.handle('simulate-gsi', (_e, { health, game }) => {
   if (!gsiInstance) return { ok: false, error: 'GSI not started' };
@@ -197,6 +212,8 @@ function setupAutoUpdater() {
   setInterval(() => autoUpdater.checkForUpdates(), 2 * 60 * 60 * 1000);
 }
 
+ipcMain.handle('is-packaged', () => app.isPackaged);
+
 ipcMain.handle('install-update', () => {
   autoUpdater.quitAndInstall(false, true);
 });
@@ -208,15 +225,7 @@ app.whenReady().then(() => {
   setupAutoUpdater();
 
   // Alt+X – toggle paused mode (disables auto-popup until pressed again)
-  globalShortcut.register('Alt+X', () => {
-    paused = !paused;
-    if (paused) {
-      if (viewerWin) fadeOut(viewerWin);
-      dashboardWin?.webContents.send('gsi-status', 'PAUSED');
-    } else {
-      dashboardWin?.webContents.send('gsi-status', 'ALIVE');
-    }
-  });
+  globalShortcut.register('Alt+X', togglePause);
 });
 
 app.on('before-quit', () => {

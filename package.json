@@ -6,15 +6,18 @@
   "scripts": {
     "start": "electron .",
     "install-gsi": "node gsi-installer.js",
-    "build": "electron-builder --win"
+    "build-icon": "node scripts/build-icon.js",
+    "build": "node scripts/build-icon.js && electron-builder --win"
   },
   "dependencies": {
     "electron-updater": "^6.8.3",
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "electron": "^28.1.0",
-    "electron-builder": "^25.1.8"
+    "electron": "^41.0.0",
+    "electron-builder": "^26.8.1",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.5"
   },
   "build": {
     "appId": "com.respawntok.app",
