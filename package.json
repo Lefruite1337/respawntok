@@ -7,7 +7,8 @@
     "start": "electron .",
     "install-gsi": "node gsi-installer.js",
     "build-icon": "node scripts/build-icon.js",
-    "build": "node scripts/build-icon.js && electron-builder --win"
+    "build": "node scripts/build-icon.js && electron-builder --win",
+    "release": "node scripts/build-icon.js && electron-builder --win --publish always"
   },
   "dependencies": {
     "electron-updater": "^6.8.3",
@@ -36,8 +37,9 @@
       "!**/*.md"
     ],
     "publish": {
-      "provider": "generic",
-      "url": "https://your-site.com/releases/"
+      "provider": "github",
+      "owner": "Lefruite1337",
+      "repo": "respawntok"
     }
   }
 }

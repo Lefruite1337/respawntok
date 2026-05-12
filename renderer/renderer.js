@@ -223,7 +223,7 @@ document.getElementById('btn-activate').addEventListener('click', () => {
   const result = document.getElementById('license-result');
   result.classList.remove('hidden', 'success', 'error');
 
-  // PoC: accept any 19-char key matching XXXX-XXXX-XXXX-XXXX
+  // Stub: accept any key matching XXXX-XXXX-XXXX-XXXX format
   const valid = /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/i.test(key);
   if (valid) {
     result.textContent = 'License activated! Ads disabled.';

@@ -13,7 +13,9 @@
       "Bash(powershell:*)",
       "Bash(magick:*)",
       "Bash(mkdir:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(taskkill:*)",
+      "Bash(gh release:*)"
     ]
   }
 }

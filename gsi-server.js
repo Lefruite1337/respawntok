@@ -89,14 +89,25 @@ class GSIServer extends EventEmitter {
   }
 
   start() {
+    this._connections = new Set();
     this.server = this.app.listen(PORT, '127.0.0.1', () => {
       console.log(`[GSI] Listening on http://localhost:${PORT}`);
     });
+    this.server.on('connection', (socket) => {
+      this._connections.add(socket);
+      socket.on('close', () => this._connections.delete(socket));
+    });
+    this.server.on('error', (err) => this.emit('error', err));
     return this;
   }
 
   stop() {
-    if (this.server) this.server.close();
+    if (!this.server) return;
+    // Destroy all open keep-alive connections so the port is freed immediately
+    for (const socket of (this._connections ?? [])) socket.destroy();
+    this._connections?.clear();
+    this.server.close();
+    this.server = null;
   }
 }
 

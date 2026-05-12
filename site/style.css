@@ -82,7 +82,7 @@ body {
   text-decoration: none;
   flex-shrink: 0;
 }
-.logo-icon { font-size: 20px; color: var(--red); }
+.logo-img   { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
 .logo-text  { font-size: 17px; font-weight: 700; color: var(--text); }
 
 .nav-links {

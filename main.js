@@ -2,24 +2,48 @@
  * main.js – Electron main process
  *
  * Responsibilities:
+ *  - Enforce single instance (prevents port 3000 conflict)
  *  - Start the GSI HTTP server
  *  - Create the Dashboard window (always visible)
  *  - Create the TikTok Viewer window (hidden until death)
  *  - Show viewer on 'player-died', hide on 'player-respawn'
  *  - Register Alt+X global shortcut to dismiss viewer manually
+ *  - System tray icon with context menu
  *  - Expose IPC endpoints so the renderer can trigger GSI install
  */
 
-const { app, BrowserWindow, globalShortcut, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, Tray, Menu, nativeImage, dialog } = require('electron');
 const path = require('path');
 const GSIServer = require('./gsi-server');
 const { installGSIConfig, installDotaGSIConfig } = require('./gsi-installer');
 const { autoUpdater } = require('electron-updater');
 
+// ─── Single instance lock ─────────────────────────────────────────────────────
+
+const gotLock = app.requestSingleInstanceLock();
+if (!gotLock) {
+  // Another instance is already running — focus it and exit immediately
+  app.quit();
+  process.exit(0);
+}
+
+app.on('second-instance', () => {
+  if (dashboardWin) {
+    if (dashboardWin.isMinimized()) dashboardWin.restore();
+    dashboardWin.show();
+    dashboardWin.focus();
+  }
+});
+
+// ─── Icon path ────────────────────────────────────────────────────────────────
+
+const ICON_PATH = path.join(__dirname, 'assets', 'icon.ico');
+
 // ─── Windows ─────────────────────────────────────────────────────────────────
 
 let dashboardWin = null;
-let viewerWin = null;
+let viewerWin    = null;
+let tray         = null;
 
 function createDashboard() {
   dashboardWin = new BrowserWindow({
@@ -28,6 +52,7 @@ function createDashboard() {
     minWidth: 700,
     minHeight: 500,
     title: 'RespawnTok',
+    icon: ICON_PATH,
     backgroundColor: '#0f0f0f',
     webPreferences: {
       preload: path.join(__dirname, 'renderer', 'preload.js'),
@@ -37,6 +62,15 @@ function createDashboard() {
   });
 
   dashboardWin.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+
+  // Minimise to tray instead of closing
+  dashboardWin.on('close', (e) => {
+    if (!app.isQuitting) {
+      e.preventDefault();
+      dashboardWin.hide();
+    }
+  });
+
   dashboardWin.on('closed', () => { dashboardWin = null; });
 }
 
@@ -48,9 +82,9 @@ function createViewer() {
     alwaysOnTop: true,
     show: false,          // hidden until death
     skipTaskbar: true,
+    icon: ICON_PATH,
     title: 'RespawnTok – TikTok',
     webPreferences: {
-      // webviewTag must be true so the <webview> in viewer.html works
       webviewTag: true,
       nodeIntegration: false,
       contextIsolation: true,
@@ -58,13 +92,47 @@ function createViewer() {
   });
 
   viewerWin.loadFile(path.join(__dirname, 'renderer', 'viewer.html'));
-
   viewerWin.on('closed', () => { viewerWin = null; });
+}
+
+function createTray() {
+  const icon = nativeImage.createFromPath(ICON_PATH).resize({ width: 16, height: 16 });
+  tray = new Tray(icon);
+  tray.setToolTip('RespawnTok');
+
+  const menu = Menu.buildFromTemplate([
+    {
+      label: 'Show Dashboard',
+      click: () => {
+        dashboardWin?.show();
+        dashboardWin?.focus();
+      },
+    },
+    { type: 'separator' },
+    {
+      label: 'Pause / Resume Popup',
+      click: togglePause,
+    },
+    { type: 'separator' },
+    {
+      label: 'Quit RespawnTok',
+      click: () => {
+        app.isQuitting = true;
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setContextMenu(menu);
+  tray.on('double-click', () => {
+    dashboardWin?.show();
+    dashboardWin?.focus();
+  });
 }
 
 // ─── Fade helpers ─────────────────────────────────────────────────────────────
 
-const FADE_STEPS = 12;
+const FADE_STEPS    = 12;
 const FADE_INTERVAL = 16; // ms per step (~60 fps), total ~200ms
 
 function sleep(ms) {
@@ -97,10 +165,23 @@ async function fadeOut(win) {
 // ─── GSI ─────────────────────────────────────────────────────────────────────
 
 let gsiInstance = null;
-let paused = false;
+let paused      = false;
 
 function startGSI() {
-  const gsi = new GSIServer().start();
+  const gsi = new GSIServer();
+
+  gsi.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      dialog.showErrorBox(
+        'Port 3000 already in use',
+        'Another app (or a previous RespawnTok instance) is using port 3000.\n\n' +
+        'Close the other app and restart RespawnTok.'
+      );
+      app.quit();
+    }
+  });
+
+  gsi.start();
   gsiInstance = gsi;
 
   let tiktokLoaded = false;
@@ -129,19 +210,13 @@ function startGSI() {
     dashboardWin?.webContents.send('gsi-status', paused ? 'PAUSED' : 'ALIVE');
   });
 
-  // Attach sendLog so the simulate-gsi IPC handler can call it
   gsiInstance._sendLog = sendLog;
 }
 
 // ─── IPC handlers ────────────────────────────────────────────────────────────
 
-ipcMain.handle('install-gsi', async () => {
-  return installGSIConfig();
-});
-
-ipcMain.handle('install-dota-gsi', async () => {
-  return installDotaGSIConfig();
-});
+ipcMain.handle('install-gsi', async () => installGSIConfig());
+ipcMain.handle('install-dota-gsi', async () => installDotaGSIConfig());
 
 // Shared toggle used by both Alt+X and the dashboard button
 function togglePause() {
@@ -187,12 +262,9 @@ ipcMain.handle('simulate-gsi', (_e, { health, game }) => {
   return { ok: true };
 });
 
-// ─── App lifecycle ────────────────────────────────────────────────────────────
-
 // ─── Auto-updater ─────────────────────────────────────────────────────────────
 
 function setupAutoUpdater() {
-  // Only run in packaged builds — dev mode has no update server
   if (!app.isPackaged) return;
 
   autoUpdater.autoDownload = true;
@@ -200,40 +272,44 @@ function setupAutoUpdater() {
 
   const send = (event, data) => dashboardWin?.webContents.send(event, data);
 
-  autoUpdater.on('checking-for-update',  ()      => send('update-status', { state: 'checking' }));
-  autoUpdater.on('update-not-available', ()      => send('update-status', { state: 'up-to-date' }));
-  autoUpdater.on('update-available',     (info)  => send('update-status', { state: 'available', version: info.version }));
-  autoUpdater.on('download-progress',    (prog)  => send('update-status', { state: 'downloading', percent: Math.floor(prog.percent) }));
-  autoUpdater.on('update-downloaded',    (info)  => send('update-status', { state: 'ready', version: info.version }));
-  autoUpdater.on('error',                (err)   => send('update-status', { state: 'error', message: err.message }));
+  autoUpdater.on('checking-for-update',  ()     => send('update-status', { state: 'checking' }));
+  autoUpdater.on('update-not-available', ()     => send('update-status', { state: 'up-to-date' }));
+  autoUpdater.on('update-available',     (info) => send('update-status', { state: 'available', version: info.version }));
+  autoUpdater.on('download-progress',    (prog) => send('update-status', { state: 'downloading', percent: Math.floor(prog.percent) }));
+  autoUpdater.on('update-downloaded',    (info) => send('update-status', { state: 'ready', version: info.version }));
+  autoUpdater.on('error',                (err)  => send('update-status', { state: 'error', message: err.message }));
 
-  // Check on launch, then every 2 hours
   autoUpdater.checkForUpdates();
   setInterval(() => autoUpdater.checkForUpdates(), 2 * 60 * 60 * 1000);
 }
 
-ipcMain.handle('is-packaged', () => app.isPackaged);
+ipcMain.handle('is-packaged',    () => app.isPackaged);
+ipcMain.handle('install-update', () => autoUpdater.quitAndInstall(false, true));
 
-ipcMain.handle('install-update', () => {
-  autoUpdater.quitAndInstall(false, true);
-});
+// ─── App lifecycle ────────────────────────────────────────────────────────────
 
 app.whenReady().then(() => {
   createDashboard();
   createViewer();
+  createTray();
   startGSI();
   setupAutoUpdater();
 
-  // Alt+X – toggle paused mode (disables auto-popup until pressed again)
   globalShortcut.register('Alt+X', togglePause);
 });
 
 app.on('before-quit', () => {
+  app.isQuitting = true;
+  globalShortcut.unregisterAll();
   gsiInstance?.stop();
 });
 
+app.on('will-quit', () => {
+  // Force-exit so no ghost Electron process or occupied port lingers
+  setImmediate(() => process.exit(0));
+});
+
 app.on('window-all-closed', () => {
-  globalShortcut.unregisterAll();
   if (process.platform !== 'darwin') app.quit();
 });
 
