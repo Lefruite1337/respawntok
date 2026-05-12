@@ -32,7 +32,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
         run: |
-          aws s3 cp dist\RespawnTok*.exe s3://${{ secrets.R2_BUCKET_NAME }}/release.exe `
+          $exe = Get-ChildItem dist\*.exe | Select-Object -First 1 -ExpandProperty FullName
+          Write-Host "Uploading: $exe"
+          aws s3 cp $exe s3://${{ secrets.R2_BUCKET_NAME }}/release.exe `
             --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com `
             --checksum-algorithm CRC32
         shell: powershell
